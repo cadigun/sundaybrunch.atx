@@ -36,6 +36,10 @@ const MediaSlot = ({ className, src, alt, video = false }: { className: string; 
   </div>
 )
 
+const SignupCardCopy = () => (
+  <div className="signup-card-copy"><p>join the early list.</p><h3>save your spot.</h3></div>
+)
+
 const SignupForm = () => {
   const [email, setEmail] = useState('')
   const [city, setCity] = useState('')
@@ -73,8 +77,19 @@ const SignupForm = () => {
     }
   }
 
+  if (status === 'saved') {
+    return (
+      <div className="signup-success" role="status">
+        <p className="signup-success-kicker">you’re on the list.</p>
+        <h3>see you at the table.</h3>
+      </div>
+    )
+  }
+
   return (
-    <form className="tally-preview" onSubmit={handleSubmit}>
+    <>
+      <SignupCardCopy />
+      <form className="tally-preview" onSubmit={handleSubmit}>
       <label className="sr-only" htmlFor="signup-email">Email address</label>
       <input
         className="form-line"
@@ -100,14 +115,14 @@ const SignupForm = () => {
         required
       />
       <button className="form-submit" type="submit" disabled={status === 'saving'}>
-        {status === 'saving' ? 'saving…' : status === 'saved' ? 'you’re on the list' : 'sign up'}
-        {status !== 'saved' && <ArrowUpRight />}
+        {status === 'saving' ? 'saving…' : 'sign up'}
+        <ArrowUpRight />
       </button>
       <p role="status">
-        {status === 'saved' && 'Saved on this device for now.'}
         {status === 'error' && 'Something went wrong. Please try again.'}
       </p>
-    </form>
+      </form>
+    </>
   )
 }
 
@@ -116,7 +131,12 @@ const TallyEmbed = () => {
     return <SignupForm />
   }
 
-  return <iframe className="tally-embed" title="Pasture pre-launch signup form" src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`} loading="lazy" />
+  return (
+    <>
+      <SignupCardCopy />
+      <iframe className="tally-embed" title="Pasture pre-launch signup form" src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`} loading="lazy" />
+    </>
+  )
 }
 
 function App() {
@@ -161,7 +181,6 @@ function App() {
           </div>
           <div className="signup-card">
             <div className="signup-card-head"><span>be the first to know.</span><span>✳</span></div>
-            <div className="signup-card-copy"><p>join the early list.</p><h3>save your spot.</h3></div>
             <TallyEmbed />
           </div>
         </section>
