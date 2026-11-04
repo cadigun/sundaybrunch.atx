@@ -36,7 +36,7 @@ svg { width: 17px; height: 17px; }
 .instagram-link:hover { color: var(--paper); background: var(--ink); }
 
 .hero { min-height: 690px; position: relative; display: grid; grid-template-columns: 47% 53%; align-items: center; padding-top: 55px; padding-bottom: 100px; }
-.hero-copy { position: relative; z-index: 3; padding: 0 0 35px 7%; }
+.hero-copy { position: relative; z-index: 3; padding: 0 0 35px; }
 .eyebrow { margin: 0 0 26px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2 { letter-spacing: -.08em; }
@@ -49,7 +49,7 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
 .live-dot { display: inline-block; width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: var(--butter); box-shadow: 0 0 0 3px rgba(255, 209, 102, .2); }
 
 .hero-media { position: relative; margin: 0 2% 0 0; }
-.media-frame { width: 520px; max-width: 100%; height: 500px; position: relative; margin-left: auto; }
+.media-frame { width: 520px; max-width: 100%; height: 500px; position: relative; margin-left: 48px; }
 .media-slot { position: absolute; display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255, 244, 232, .2); color: rgba(40, 27, 55, .76); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .media-image { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
 .media-slot::before { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(140deg, rgba(33, 26, 47, .16), transparent 48%, rgba(33, 26, 47, .2)); }
@@ -107,7 +107,7 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
   .hero-copy { padding: 0; }
   h1 { font-size: clamp(55px, 14vw, 85px); }
   .hero-media { margin: 0 4% 0 2%; }
-  .media-frame { width: 100%; height: 360px; }
+  .media-frame { width: 100%; height: 360px; margin-left: 0; }
   .one-line { display: block; padding-top: 24px; padding-bottom: 24px; }
   .one-line-tags { margin-top: 18px; }
   .signup { grid-template-columns: 1fr; gap: 48px; padding-top: 85px; padding-bottom: 90px; }
@@ -122,7 +122,7 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
   .header-nav > a:first-child { padding: 11px 15px; font-size: 16px; }
   .instagram-link { width: 43px; height: 43px; }
   .hero-media { margin: 0 4% 0 2%; }
-  .media-frame { width: 100%; height: 300px; }
+  .media-frame { width: 100%; height: 300px; margin-left: 0; }
   .media-main { inset: 3% 8% 1% 7%; }
   .media-small { width: 28%; height: 32%; }
   .media-note { right: -8%; }

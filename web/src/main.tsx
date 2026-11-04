@@ -156,12 +156,12 @@ function App() {
 
         <section className="signup page-width" id="signup">
           <div className="signup-copy">
-            <h2><span>coming to</span><em>Austin, TX.</em></h2>
+            <h2><span>Coming to</span><em>Austin, TX.</em></h2>
             <p>Get the first invite when we launch.</p>
           </div>
           <div className="signup-card">
-            <div className="signup-card-head"><span>save your spot.</span><span>✳</span></div>
-            <div className="signup-card-copy"><p>join the early list.</p><h3>be the first to know.</h3></div>
+            <div className="signup-card-head"><span>be the first to know.</span><span>✳</span></div>
+            <div className="signup-card-copy"><p>join the early list.</p><h3>save your spot.</h3></div>
             <TallyEmbed />
           </div>
         </section>
