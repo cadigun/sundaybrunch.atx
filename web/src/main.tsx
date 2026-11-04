@@ -1,6 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles.css'
+import friendsImage from './assets/friends.webp'
+import foodImage from './assets/food.webp'
+import placesImage from './assets/places.webp'
 
 const TALLY_FORM_ID = 'your-form-id'
 const SIGNUP_STORAGE_KEY = 'pasture-waitlist'
@@ -26,9 +29,9 @@ const Instagram = () => (
   </svg>
 )
 
-const MediaSlot = ({ label, className, video = false }: { label: string; className: string; video?: boolean }) => (
-  <div className={`media-slot ${className}`} aria-label={`${label} media placeholder`}>
-    <span className="media-slot-label">{label}</span>
+const MediaSlot = ({ className, src, alt, video = false }: { className: string; src: string; alt: string; video?: boolean }) => (
+  <div className={`media-slot ${className}`}>
+    <img className="media-image" src={src} alt={alt} />
     {video && <span className="play-button">▶</span>}
   </div>
 )
@@ -123,14 +126,13 @@ function App() {
         <a className="brand" href="#top" aria-label="Pasture home">pasture</a>
         <nav className="header-nav" aria-label="Main navigation">
           <a href="#signup">sign up <ArrowUpRight /></a>
-          <a className="instagram-link" href="https://instagram.com" aria-label="Pasture on Instagram"><Instagram /></a>
+          <a className="instagram-link" href="https://instagram.com/pasture.place" target='_blank' aria-label="Pasture on Instagram"><Instagram /></a>
         </nav>
       </header>
 
       <main id="top">
         <section className="hero page-width">
           <div className="hero-copy">
-            <p className="eyebrow">coming soon / Austin, TX</p>
             <h1>come solo.<br /><em>leave with new friends.</em></h1>
             <p className="hero-deck">pasture is a social app for Christians to meet in real life — over brunch, dinner, and whatever makes a good plan.</p>
             <a className="primary-button" href="#signup">sign up <ArrowUpRight /></a>
@@ -138,23 +140,24 @@ function App() {
           </div>
 
           <div className="hero-media" aria-label="Pasture people and community media placeholders">
-            <MediaSlot label="photo / 01" className="media-main" video />
-            <MediaSlot label="photo / 02" className="media-small media-small-one" />
-            <MediaSlot label="photo / 03" className="media-small media-small-two" />
-            <span className="media-star">✳</span>
+            <div className="media-frame">
+              <MediaSlot className="media-main" src={placesImage} alt="Places to gather in Austin" />
+              <MediaSlot className="media-small media-small-one" src={friendsImage} alt="Friends gathered around a fire outdoors" />
+              <MediaSlot className="media-small media-small-two" src={foodImage} alt="Food prepared for sharing" />
+              <span className="media-star">✳</span>
+            </div>
           </div>
         </section>
 
         <section className="one-line page-width">
-          <p>real people. easy plans. <em>more life together.</em></p>
+          <p>seven people. one table. <em>more life together.</em></p>
           <div className="one-line-tags"><span>brunch</span><span>dinner</span><span>new friends</span></div>
         </section>
 
         <section className="signup page-width" id="signup">
           <div className="signup-copy">
-            <h2>pasture starts<br /><em>in Austin, TX.</em></h2>
-            <p>Get the first invite when we’re ready to gather.</p>
-            <p className="signup-location"><span className="live-dot" /> coming soon</p>
+            <h2><span>coming to</span><em>Austin, TX.</em></h2>
+            <p>Get the first invite when we launch.</p>
           </div>
           <div className="signup-card">
             <div className="signup-card-head"><span>save your spot.</span><span>✳</span></div>
