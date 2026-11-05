@@ -1,5 +1,5 @@
 export type Bindings = {
-  SIGNUPS: KVNamespace
+  PASTURE_LANDING_WAITLIST: KVNamespace
 }
 
 export type AppEnv = {

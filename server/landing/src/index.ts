@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import type { Context } from 'hono'
 import { PostSignup } from './endpoints/postSignup'
 import type { AppEnv } from './types'
 
@@ -21,7 +22,7 @@ app.use(
   }),
 )
 
-const health = (c: Parameters<typeof app.get>[1]) => c.json({ ok: true })
+const health = (c: Context<AppEnv>) => c.json({ ok: true })
 
 app.get('/health', health)
 app.get('/api/health', health)
