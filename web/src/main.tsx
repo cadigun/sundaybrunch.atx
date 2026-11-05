@@ -7,7 +7,7 @@ import placesImage from './assets/places.webp'
 
 const TALLY_FORM_ID = 'your-form-id'
 const SIGNUP_STORAGE_KEY = 'pasture-waitlist'
-const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT ?? ''
+const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT ?? 'https://pasture.place/api/v1/signup'
 
 type SignupEntry = {
   email: string
@@ -108,17 +108,16 @@ const SignupForm = () => {
         id="signup-city"
         name="city"
         type="text"
-        placeholder="city or area"
+        placeholder="city or area (optional)"
         autoComplete="address-level2"
         value={city}
         onChange={(event) => setCity(event.target.value)}
-        required
       />
       <button className="form-submit" type="submit" disabled={status === 'saving'}>
         {status === 'saving' ? 'saving…' : 'sign up'}
         <ArrowUpRight />
       </button>
-      <p role="status">
+      <p className={`form-message${status === 'error' ? ' form-message-error' : ''}`} role="status">
         {status === 'error' && 'Something went wrong. Please try again.'}
       </p>
       </form>

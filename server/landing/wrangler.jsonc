@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pasture-landing-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-04",
+  "observability": {
+    "enabled": true
+  },
+  "workers_dev": true,
+  "kv_namespaces": [
+    {
+      "binding": "PASTURE_LANDING_WAITLIST",
+      "id": "2a9626a621034fcebed2cfa496c14c64"
+    }
+  ]
+}

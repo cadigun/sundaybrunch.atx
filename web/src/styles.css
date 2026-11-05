@@ -91,6 +91,7 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
 .form-submit:disabled { cursor: wait; opacity: .72; }
 .form-submit svg { width: 16px; }
 .tally-preview p { margin: 7px 0 0; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; }
+.form-message-error { color: #b42318 !important; font-weight: 700; }
 .tally-preview code { color: var(--deep-ink); }
 .signup-success { padding: 28px 2px 12px; }
 .signup-success-kicker { margin-bottom: 10px; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
