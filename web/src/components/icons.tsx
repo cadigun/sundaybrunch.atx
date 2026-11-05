@@ -24,3 +24,9 @@ export const Compass = () => (
     <path d="m12.9 7.1-1.7 4.1-4.1 1.7 1.7-4.1 4.1-1.7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
   </svg>
 )
+
+export const Asterisk = ({ className }: { className?: string }) => (
+  <svg className={className} aria-hidden="true" viewBox="0 0 20 20" fill="none">
+    <path d="M10 1.5v17M1.5 10h17M3.99 3.99l12.02 12.02M16.01 3.99 3.99 16.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)

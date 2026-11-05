@@ -3,7 +3,7 @@ import friendsImage from '../assets/friends.webp'
 import foodImage from '../assets/food.webp'
 import placesImage from '../assets/places.webp'
 import { MediaSlot } from '../components/MediaSlot'
-import { ArrowUpRight, Compass, Instagram } from '../components/icons'
+import { Asterisk, ArrowUpRight, Compass, Instagram } from '../components/icons'
 import { SignupCard } from '../components/SignupForm'
 
 export const LandingPage = () => (
@@ -30,7 +30,7 @@ export const LandingPage = () => (
             <MediaSlot className="media-main" src={placesImage} alt="Places to gather in Austin" />
             <MediaSlot className="media-small media-small-one" src={friendsImage} alt="Friends gathered around a fire outdoors" />
             <MediaSlot className="media-small media-small-two" src={foodImage} alt="Food prepared for sharing" />
-            <span className="media-star">✳</span>
+            <Asterisk className="media-star" />
           </div>
         </div>
       </section>
@@ -46,7 +46,7 @@ export const LandingPage = () => (
           <p>Get the first invite when we launch.</p>
         </div>
         <div className="signup-card">
-          <div className="signup-card-head"><span>be the first to know.</span><span>✳</span></div>
+          <div className="signup-card-head"><span>be the first to know.</span><span><Asterisk /></span></div>
           <SignupCard />
         </div>
       </section>
