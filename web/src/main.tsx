@@ -9,7 +9,7 @@ const PrivacyPage = lazy(() => import('./pages/LegalPage').then(({ PrivacyPage }
 const TermsPage = lazy(() => import('./pages/LegalPage').then(({ TermsPage }) => ({ default: TermsPage })))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(({ NotFoundPage }) => ({ default: NotFoundPage })))
 
-const RouteLoading = () => <div className="route-loading" aria-live="polite">loading…</div>
+const RouteLoading = () => null
 
 const App = () => (
   <Suspense fallback={<RouteLoading />}>
