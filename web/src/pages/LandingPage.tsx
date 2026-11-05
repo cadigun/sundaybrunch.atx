@@ -31,6 +31,8 @@ export const LandingPage = () => (
             <MediaSlot className="media-small media-small-one" src={friendsImage} alt="Friends gathered around a fire outdoors" />
             <MediaSlot className="media-small media-small-two" src={foodImage} alt="Food prepared for sharing" />
             <Asterisk className="media-star" />
+            <Asterisk className="media-star media-star-top" />
+            <Asterisk className="media-star media-star-right" />
           </div>
         </div>
       </section>

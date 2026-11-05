@@ -67,7 +67,9 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
 .media-small-two { left: -1%; bottom: 4%; border-radius: 4% 4% 46% 46%; background: #4e3b67; transform: rotate(-7deg); }
 .media-small-two .media-image { object-position: 78% center; }
 .play-button { position: absolute; z-index: 3; bottom: 22px; right: 24px; display: grid; place-items: center; width: 38px; height: 38px; padding-left: 2px; border-radius: 50%; color: var(--paper); background: var(--ink); font-size: 11px; }
-.media-star { position: absolute; left: 0; bottom: 7%; color: var(--butter); font-size: 34px; transform: rotate(14deg); }
+.media-star { position: absolute; left: 0; bottom: 7%; width: 34px; height: 34px; color: var(--butter); transform: rotate(14deg); }
+.media-star-top { top: 8%; right: 12%; left: auto; bottom: auto; width: 22px; height: 22px; color: var(--tomato); transform: rotate(-12deg); }
+.media-star-right { right: 6%; left: auto; bottom: 14%; width: 18px; height: 18px; color: var(--lavender); transform: rotate(18deg); }
 
 .one-line { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 27px 0 30px; border-top: 1px solid var(--line); }
 .one-line p { margin: 0; color: var(--ink); font-family: 'Instrument Serif', serif; font-size: clamp(24px, 3vw, 37px); }
