@@ -163,7 +163,7 @@ function App() {
               <MediaSlot className="media-main" src={placesImage} alt="Places to gather in Austin" />
               <MediaSlot className="media-small media-small-one" src={friendsImage} alt="Friends gathered around a fire outdoors" />
               <MediaSlot className="media-small media-small-two" src={foodImage} alt="Food prepared for sharing" />
-              <span className="media-star">✳</span>
+              <span className="media-star">*</span>
             </div>
           </div>
         </section>
@@ -179,7 +179,7 @@ function App() {
             <p>Get the first invite when we launch.</p>
           </div>
           <div className="signup-card">
-            <div className="signup-card-head"><span>be the first to know.</span><span>✳</span></div>
+            <div className="signup-card-head"><span>be the first to know.</span><span>*</span></div>
             <TallyEmbed />
           </div>
         </section>
