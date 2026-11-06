@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react'
+import { apiBaseUrl } from '../api/constant'
 import { Checkmark } from './icons'
 
-const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT ?? 'https://pasture.place/api/v1/signup'
+const SIGNUP_ENDPOINT = `${apiBaseUrl}/api/v1/signup`
 
 type SignupEntry = {
   email: string

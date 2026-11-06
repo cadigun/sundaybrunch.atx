@@ -1,7 +1,8 @@
 interface Env {
   CHALLENGES_LOCAL: KVNamespace
-  CHALLENGES_REMOTE: KVNamespace
-  WAITLIST: KVNamespace
+  CHALLENGES_PRODUCTION: KVNamespace
+  WAITLIST_LOCAL: KVNamespace
+  WAITLIST_PRODUCTION: KVNamespace
 }
 
 type EventConfig = {
@@ -12,8 +13,9 @@ type EventConfig = {
   prompts: (string | { template: string; options: Record<string, string[]> })[]
 }
 
-function getChallengeStore(env: Env, store: string | null) {
-  return store === 'local' ? env.CHALLENGES_LOCAL : env.CHALLENGES_REMOTE
+function selectStore(env: Env, store: string | null, kind: 'challenge' | 'waitlist') {
+  if (store === 'local') return kind === 'challenge' ? env.CHALLENGES_LOCAL : env.WAITLIST_LOCAL
+  return kind === 'challenge' ? env.CHALLENGES_PRODUCTION : env.WAITLIST_PRODUCTION
 }
 
 async function listValues<T>(namespace: KVNamespace, prefix: string): Promise<T[]> {
@@ -59,7 +61,7 @@ export default {
     if (url.pathname === '/api/events') {
       if (request.method === 'GET') {
         const store = url.searchParams.get('store')
-        return Response.json({ events: await getEvents(getChallengeStore(env, store)) }, { headers })
+        return Response.json({ events: await getEvents(selectStore(env, store, 'challenge')) }, { headers })
       }
 
       if (request.method === 'POST') {
@@ -70,7 +72,15 @@ export default {
         if (!body.config?.name?.trim() || !body.config.prompts?.length) {
           return Response.json({ error: 'Event name and at least one prompt are required.' }, { status: 400, headers })
         }
-        await getChallengeStore(env, body.store ?? 'remote').put(`event:${body.id}`, JSON.stringify(body.config))
+        if (body.config.startTime && body.config.endTime && Date.parse(body.config.endTime) <= Date.parse(body.config.startTime)) {
+          return Response.json({ error: 'End time must be later than start time.' }, { status: 400, headers })
+        }
+        const namespace = selectStore(env, body.store ?? 'local', 'challenge')
+        const key = `event:${body.id}`
+        if (await namespace.get(key) !== null) {
+          return Response.json({ error: 'That event ID already exists in this store.' }, { status: 409, headers })
+        }
+        await namespace.put(key, JSON.stringify(body.config))
         return Response.json({ ok: true, id: body.id }, { status: 201, headers })
       }
 
@@ -79,7 +89,7 @@ export default {
 
     if (url.pathname === '/api/waitlist') {
       if (request.method !== 'GET') return new Response('Method not allowed', { status: 405 })
-      const signups = await listValues<Record<string, any>>(env.WAITLIST, 'signup:')
+      const signups = await listValues<Record<string, any>>(selectStore(env, url.searchParams.get('store'), 'waitlist'), 'signup:')
       signups.sort((a, b) => (b.submitted_at ?? '').localeCompare(a.submitted_at ?? ''))
       return Response.json({ signups }, { headers })
     }

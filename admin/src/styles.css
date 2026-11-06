@@ -42,3 +42,83 @@ td small { display: block; margin-top: 4px; color: #847990; }
 code { color: #281b37; }
 footer { padding: 26px 0; color: #887d91; font: 9px 'DM Mono', monospace; }
 @media (max-width: 650px) { .event-card { padding: 17px; } .event-head { align-items: flex-start; flex-direction: column; } .event-stats { gap: 14px; } .event-stats div { text-align: left; } .topbar > p { max-width: 170px; text-align: right; } }
+.topbar-actions { display: flex; align-items: center; gap: 14px; }
+.environment-toggle { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid #d8cfe4; border-radius: 999px; background: #eee8f4; }
+.environment-toggle button { padding: 8px 12px; border: 0; border-radius: 999px; color: #665878; background: transparent; font: 10px 'DM Mono', monospace; cursor: pointer; }
+.environment-toggle button.selected { color: #fffaf5; background: #281b37; }
+.shell { padding-top: 8px; }
+.topbar { padding: 15px 0; }
+.tab-bar { margin: 0 0 20px; }
+.admin-section { gap: 16px; }
+.event-form-panel { border-radius: 5px; }
+.event-card { border-radius: 5px; box-shadow: 0 6px 20px #281b3708; }
+.summary { margin-top: 4px; }
+footer { border-top: 1px solid #d8cfe4; margin-top: 22px; }
+.loaded-at { color: #786b87; font: 9px 'DM Mono', monospace; }
+.intro { padding-bottom: 32px; }
+.tab-bar { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 1px solid #d8cfe4; }
+.tab { display: flex; align-items: center; gap: 8px; padding: 12px 15px; border: 0; border-bottom: 2px solid transparent; color: #766b80; background: transparent; font: 12px Manrope, sans-serif; cursor: pointer; }
+.tab.active { border-bottom-color: #281b37; color: #281b37; font-weight: 700; }
+.tab span { color: #91859c; font: 9px 'DM Mono', monospace; }
+.admin-section { display: grid; gap: 14px; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.section-heading .eyebrow { margin-bottom: 5px; }
+.section-heading h2 { font-size: 26px; }
+.section-note { margin: -5px 0 6px; color: #786b87; font-size: 12px; }
+.store-switch { display: inline-flex; padding: 3px; border: 1px solid #d8cfe4; border-radius: 99px; background: #eee8f4; }
+.store-switch button { padding: 8px 12px; border: 0; border-radius: 99px; color: #786b87; background: transparent; font: 9px 'DM Mono', monospace; cursor: pointer; }
+.store-switch button.selected { color: #fffaf5; background: #392c4c; }
+.event-form-panel { border: 1px solid #ded6e7; background: #fffaf5; }
+.event-form-panel > summary { padding: 16px 19px; list-style-position: inside; }
+.event-form-panel > summary span { margin-left: 8px; color: #94899c; font: 9px 'DM Mono', monospace; font-weight: 400; }
+.event-form { display: grid; gap: 18px; padding: 5px 19px 20px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 13px; }
+.event-form label { display: grid; align-content: start; gap: 6px; min-width: 0; color: #51445f; font-size: 11px; font-weight: 700; }
+.event-form input, .event-form select, .event-form textarea { width: 100%; min-height: 40px; padding: 9px 11px; border: 1px solid #d8cfe4; border-radius: 3px; color: #281b37; background: white; font: 12px Manrope, sans-serif; }
+.event-form textarea { min-height: 68px; resize: vertical; }
+.event-form input:focus, .event-form select:focus, .event-form textarea:focus { outline: 2px solid #b5a7c9; outline-offset: 1px; }
+.event-form label small { color: #8a8093; font: 9px 'DM Mono', monospace; }
+.prompt-editor-heading { display: flex; align-items: center; justify-content: space-between; }
+.prompt-editor-heading h3 { margin: 0; font-size: 15px; }
+.text-button, .remove-button { padding: 0; border: 0; color: #655479; background: transparent; font: 10px 'DM Mono', monospace; cursor: pointer; }
+.text-button:hover, .remove-button:hover { text-decoration: underline; }
+.prompt-editor-list { display: grid; gap: 10px; }
+.prompt-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 13px; border: 1px solid #e2dbe9; }
+.prompt-editor legend { padding: 0 6px; color: #806b98; font: 9px 'DM Mono', monospace; text-transform: uppercase; }
+.prompt-editor label:first-of-type { grid-column: 1 / -1; }
+.remove-button { justify-self: start; }
+.save-button { justify-self: start; }
+.form-feedback { margin: 0; font-size: 11px; }
+.form-feedback.success { color: #176a57; }
+.event-list { display: grid; gap: 14px; }
+.empty { margin: 0; padding: 18px; border: 1px dashed #d8cfe4; color: #786b87; font-size: 12px; }
+.waitlist-card { margin: 0; }
+.event-table-wrap { border: 1px solid #ded6e7; border-radius: 5px; background: #fffaf5; }
+.event-table { min-width: 680px; }
+.event-table tbody tr { cursor: pointer; }
+.event-table tbody tr:hover, .event-table tbody tr.selected { background: #f5eff9; }
+.event-table tbody tr.selected { box-shadow: inset 3px 0 #392c4c; }
+.event-table td { color: #746a7d; white-space: nowrap; }
+.event-select { display: grid; gap: 4px; padding: 0; border: 0; color: #281b37; background: transparent; text-align: left; cursor: pointer; }
+.event-select strong { font: 600 12px Manrope, sans-serif; }
+.event-select small { color: #897e92; font: 9px 'DM Mono', monospace; }
+.event-select:focus-visible { outline: 2px solid #806b98; outline-offset: 3px; }
+.event-selection-hint { padding: 14px 18px; }
+.event-id-field { display: flex; align-items: center; gap: 10px; }
+.event-id-field input { min-width: 0; }
+.icon-button { display: grid; width: 40px; height: 40px; flex: 0 0 auto; place-items: center; border: 1px solid #d8cfe4; border-radius: 4px; color: #655479; background: #fffaf5; cursor: pointer; }
+.icon-button:hover { border-color: #a99ab9; background: #f5eff9; }
+.icon-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.topbar .tab-bar { align-self: stretch; display: flex; align-items: stretch; gap: 8px; margin: -15px 0; border: 0; }
+.topbar .tab { padding-inline: 13px; }
+@media (max-width: 650px) {
+  .topbar { flex-wrap: wrap; row-gap: 10px; }
+  .topbar .tab-bar { order: 3; width: 100%; justify-content: center; margin: 0; }
+  .topbar-actions { gap: 7px; }
+  .loaded-at { display: none; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
+  .form-grid, .prompt-editor { grid-template-columns: 1fr; }
+  .prompt-editor label:first-of-type { grid-column: auto; }
+  .event-form-panel > summary span { display: block; margin: 5px 0 0 20px; }
+  .event-table { min-width: 620px; }
+}

@@ -8,7 +8,7 @@ const workerCli = resolve(workerDir, 'node_modules/.bin/wrangler')
 const viteCli = resolve(repoRoot, 'web/node_modules/.bin/vite')
 
 const processes = [
-  spawn(workerCli, ['dev', '--config', resolve(adminDir, 'wrangler.jsonc'), '--ip', '127.0.0.1', '--port', '8790'], {
+  spawn(workerCli, ['dev', '--config', resolve(adminDir, 'wrangler.jsonc'), '--ip', '127.0.0.1', '--port', '8790', '--persist-to', resolve(workerDir, '.wrangler/state')], {
     cwd: workerDir,
     stdio: 'inherit',
   }),

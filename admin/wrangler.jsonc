@@ -10,12 +10,16 @@
       "id": "7a6da2941b6b4fc99870d158cf26c016"
     },
     {
-      "binding": "CHALLENGES_REMOTE",
-      "id": "7a6da2941b6b4fc99870d158cf26c016",
+      "binding": "CHALLENGES_PRODUCTION",
+      "id": "c221eb80a29442c8b49adc75bf8a8743",
       "remote": true
     },
     {
-      "binding": "WAITLIST",
+      "binding": "WAITLIST_LOCAL",
+      "id": "2a9626a621034fcebed2cfa496c14c64"
+    },
+    {
+      "binding": "WAITLIST_PRODUCTION",
       "id": "2a9626a621034fcebed2cfa496c14c64",
       "remote": true
     }

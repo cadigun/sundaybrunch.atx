@@ -11,7 +11,7 @@ export const EventCard = ({ event }: { event: EventData }) => {
     : config.active ? 'Open' : 'Paused'
 
   return (
-    <section className="event-card">
+    <section className="event-card event-details">
       <header className="event-head">
         <div><p className="eyebrow">Event / {event.id}</p><h2>{config.name ?? event.id}</h2></div>
         <div className="event-stats">

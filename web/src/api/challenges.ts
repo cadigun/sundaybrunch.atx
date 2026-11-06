@@ -1,4 +1,4 @@
-const apiBaseUrl = import.meta.env.VITE_ENVIRONMENT === 'prod' ? '' : 'http://localhost:8787'
+import { apiBaseUrl } from "./constant"
 
 type ApiError = {
   error?: string
