@@ -11,6 +11,11 @@
     {
       "binding": "PASTURE_LANDING_WAITLIST",
       "id": "2a9626a621034fcebed2cfa496c14c64"
+    },
+    {
+      "binding": "PASTURE_LANDING_CHALLENGE",
+      "id": "c221eb80a29442c8b49adc75bf8a8743",
+      "preview_id": "7a6da2941b6b4fc99870d158cf26c016"
     }
   ]
 }
