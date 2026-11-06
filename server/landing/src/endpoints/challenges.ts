@@ -62,6 +62,16 @@ function claimKey(eventId: string, claimId: string) {
   return `event:${eventId}:claim:${claimId}`
 }
 
+function generateClaimId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz1234567890'
+  let claimId = ''
+  const bytes = crypto.getRandomValues(new Uint8Array(10))
+  for (let i = 0; i < 10; i++) {
+    claimId += chars[bytes[i] % chars.length]
+  }
+  return claimId
+}
+
 function normalizeInstagram(value: string) {
   return value.trim().replace(/^@/, '').toLowerCase()
 }
@@ -136,7 +146,9 @@ async function getEvent(c: Context<AppEnv>, eventId: string) {
 }
 
 export async function GetChallenge(c: Context<AppEnv>) {
-  const eventId = c.req.param('eventId')
+  const eventId = c.req.param('eventId') as string;
+  if (!eventId) return c.json({ ok: false, error: 'Challenge event not found' }, 404)
+
   const event = await getEvent(c, eventId)
 
   if (!event) return c.json({ ok: false, error: 'Challenge event not found' }, 404)
@@ -156,7 +168,9 @@ export async function GetChallenge(c: Context<AppEnv>) {
 
 export async function ClaimChallenge(c: Context<AppEnv>) {
   const eventId = c.req.param('eventId')
-  const event = await getEvent(c, eventId)
+  if (!eventId) return c.json({ ok: false, error: 'Challenge event not found' }, 404)
+
+  const event = await getEvent(c, eventId);
   const body = (await c.req.json().catch(() => null)) as ClaimRequest | null
 
   if (!event) return c.json({ ok: false, error: 'Challenge event not found' }, 404)
@@ -186,7 +200,7 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
     }
   }
 
-  const claimId = crypto.randomUUID()
+  const claimId = generateClaimId()
   const promptId = String(Math.floor(Math.random() * prompts.length) + 1).padStart(2, '0')
   const now = new Date().toISOString()
   const claim: ChallengeClaim = {
@@ -211,6 +225,8 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
 
 export async function CompleteChallenge(c: Context<AppEnv>) {
   const eventId = c.req.param('eventId')
+  if (!eventId) return c.json({ ok: false, error: 'Challenge event not found' }, 404)
+
   const body = (await c.req.json().catch(() => null)) as CompleteRequest | null
 
   if (!body?.claim_id) return c.json({ ok: false, error: 'claim_id is required' }, 400)

@@ -5,7 +5,14 @@ type ChallengeStatusCardProps = {
   emphasis: string
   message: string
   eventName?: string
+  endTime?: string | null
   live?: 'polite' | 'assertive'
+}
+
+const formatEventEndTime = (value: string) => {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+  return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(date)
 }
 
 export const ChallengeStatusCard = ({
@@ -13,6 +20,7 @@ export const ChallengeStatusCard = ({
   emphasis,
   message,
   eventName,
+  endTime,
   live = 'polite',
 }: ChallengeStatusCardProps) => (
   <section className="challenge-card challenge-status-card" aria-live={live}>
@@ -28,5 +36,8 @@ export const ChallengeStatusCard = ({
       <Instagram />
       <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for future events and annoucements.</p>
     </div>
+    {endTime && formatEventEndTime(endTime) && (
+      <p className="challenge-event-end">Challenge ends {formatEventEndTime(endTime)}</p>
+    )}
   </section>
 )

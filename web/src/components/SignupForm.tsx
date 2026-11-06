@@ -1,8 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Checkmark } from './icons'
 
-const TALLY_FORM_ID = 'your-form-id'
-const SIGNUP_STORAGE_KEY = 'pasture-waitlist'
 const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT ?? 'https://pasture.place/api/v1/signup'
 
 type SignupEntry = {
@@ -31,9 +29,6 @@ const SignupForm = () => {
     }
 
     try {
-      const storedEntries = JSON.parse(localStorage.getItem(SIGNUP_STORAGE_KEY) ?? '[]') as SignupEntry[]
-      localStorage.setItem(SIGNUP_STORAGE_KEY, JSON.stringify([...storedEntries, entry]))
-
       const response = await fetch(SIGNUP_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -62,7 +57,7 @@ const SignupForm = () => {
   return (
     <>
       <SignupCardCopy />
-      <form className="tally-preview" onSubmit={handleSubmit}>
+      <form className="signup-form" onSubmit={handleSubmit}>
         <label className="sr-only" htmlFor="signup-email">Email address</label>
         <input className="form-line" id="signup-email" name="email" type="email" placeholder="email address" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
         <label className="sr-only" htmlFor="signup-city">City or area</label>
@@ -79,13 +74,4 @@ const SignupForm = () => {
   )
 }
 
-export const SignupCard = () => {
-  if (TALLY_FORM_ID === 'your-form-id') return <SignupForm />
-
-  return (
-    <>
-      <SignupCardCopy />
-      <iframe className="tally-embed" title="Pasture pre-launch signup form" src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`} loading="lazy" />
-    </>
-  )
-}
+export const SignupCard = () => <SignupForm />

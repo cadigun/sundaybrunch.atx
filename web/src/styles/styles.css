@@ -92,7 +92,7 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
 .signup-card-copy { padding: 28px 2px 12px; }
 .signup-card-copy p { margin-bottom: 8px; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
 .signup-card-copy h3 { max-width: 250px; margin: 0; font-size: clamp(24px, 2.5vw, 29px); line-height: .98; letter-spacing: -.07em; }
-.tally-preview { display: grid; gap: 8px; margin-top: 15px; }
+.signup-form { display: grid; gap: 8px; margin-top: 15px; }
 .form-line, .form-submit { min-height: 48px; display: flex; align-items: center; padding: 0 14px; border: 1px solid rgba(40, 27, 55, .25); font-size: 11px; }
 .form-line { width: 100%; color: rgba(40, 27, 55, .64); background: rgba(255,255,255,.25); outline: 0; }
 .form-line:focus { border-color: var(--deep-ink); box-shadow: 0 0 0 3px rgba(40, 27, 55, .12); }
@@ -100,13 +100,11 @@ h1 em, h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-
 .form-submit { justify-content: space-between; border-color: var(--deep-ink); color: #fff4e8; background: var(--deep-ink); font-family: 'Instrument Serif', serif; font-size: 18px; }
 .form-submit:disabled { cursor: wait; opacity: .72; }
 .form-submit svg { width: 16px; }
-.tally-preview p { margin: 7px 0 0; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; }
+.signup-form p { margin: 7px 0 0; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; }
 .form-message-error { color: #b42318 !important; font-weight: 700; }
-.tally-preview code { color: var(--deep-ink); }
 .signup-success { padding: 28px 2px 12px; }
 .signup-success-kicker { margin-bottom: 10px; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
 .signup-success h3 { max-width: 250px; margin: 0; font-size: 29px; line-height: .98; letter-spacing: -.07em; }
-.tally-embed { display: block; width: 100%; min-height: 220px; margin-top: 9px; border: 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .site-footer { min-height: 104px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }

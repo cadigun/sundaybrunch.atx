@@ -22,7 +22,7 @@
 .challenge-brand { color: var(--deep-ink); font-size: 25px; font-weight: 800; letter-spacing: -.1em; line-height: 1; }
 .challenge-event { color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .challenge-content { width: min(100%, 560px); flex: 1; display: grid; align-items: center; margin-inline: auto; padding: 38px 0 70px; }
-.challenge-card { overflow: hidden; padding: 24px; background: #ffe9df; border-radius: 3px; box-shadow: 0 22px 55px rgba(33, 26, 47, .18); }
+.challenge-card { overflow: hidden; padding: 24px; background: #ffe9df; border-radius: 3px; box-shadow: 0 22px 55px rgba(33, 26, 47, .18); scroll-margin-top: 16px; }
 .challenge-status-card { padding: 24px; }
 .challenge-status-card .challenge-intro { padding: 42px 0 30px; }
 .challenge-status-card h1 { margin-bottom: 22px; }
@@ -77,6 +77,7 @@
 .challenge-secondary-link { display: inline-flex; gap: 8px; margin-top: 30px; color: var(--deep-ink); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .challenge-secondary-link:hover { text-decoration: underline; }
 .challenge-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 22px 0 27px; }
+.challenge-event-end { margin: 18px 0 0; padding-top: 13px; border-top: 1px solid rgba(40, 27, 55, .18); color: rgba(40, 27, 55, .62); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .04em; }
 .challenge-footer p { margin: 0; color: rgba(139, 98, 24, .55); font-family: 'Instrument Serif', serif; font-size: 18px; line-height: normal; }
 .challenge-footer p em { color: rgba(82, 65, 106, .5); font-style: italic; }
 .challenge-footer-tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }

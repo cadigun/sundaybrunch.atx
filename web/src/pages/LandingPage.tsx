@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import friendsImage from '../assets/friends.webp'
 import foodImage from '../assets/food.webp'
@@ -6,8 +7,20 @@ import { MediaSlot } from '../components/MediaSlot'
 import { Asterisk, ArrowUpRight, Compass, Instagram } from '../components/icons'
 import { SignupCard } from '../components/SignupForm'
 
-export const LandingPage = () => (
-  <div className="site-shell">
+export const LandingPage = () => {
+  useEffect(() => {
+    const scrollToSignup = () => {
+      if (window.location.hash !== '#signup') return
+      document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+    requestAnimationFrame(scrollToSignup)
+    window.addEventListener('hashchange', scrollToSignup)
+    return () => window.removeEventListener('hashchange', scrollToSignup)
+  }, [])
+
+  return (
+    <div className="site-shell">
     <header className="site-header page-width">
       <a className="brand" href="#top" aria-label="Pasture home">pasture</a>
       <nav className="header-nav" aria-label="Main navigation">
@@ -63,5 +76,6 @@ export const LandingPage = () => (
         <a href="mailto:hello@pasture.place">hello@pasture.place</a>
       </div>
     </footer>
-  </div>
-)
+    </div>
+  )
+}

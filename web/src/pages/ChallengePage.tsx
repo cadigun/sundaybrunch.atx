@@ -19,6 +19,22 @@ const defaultFormValue = {
   joinInterestList: true,
 }
 
+const formatEventEndTime = (value: string) => {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(date)
+}
+
+const EventEndNote = ({ endTime }: { endTime?: string | null }) => {
+  if (!endTime) return null
+  const formatted = formatEventEndTime(endTime)
+  return formatted ? <p className="challenge-event-end">Challenge ends {formatted}</p> : null
+}
+
 export const ChallengePage = () => {
   const { eventId = 'preview' } = useParams()
   const [eventState, setEventState] = useState<EventState>('loading')
@@ -68,6 +84,9 @@ export const ChallengePage = () => {
       setClaimId(response.claim.claim_id)
       setAssignedPrompt(response.claim.prompt)
       setStage(response.claim.status === 'completed' ? 'complete' : 'challenge')
+      requestAnimationFrame(() => {
+        document.getElementById('challenge-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Something went wrong')
     } finally {
@@ -112,6 +131,7 @@ export const ChallengePage = () => {
         {(eventState === 'upcoming' || eventState === 'ended' || eventState === 'closed') && (
           <ChallengeStatusCard
             eventName={event?.name}
+            endTime={event?.end_time}
             title={eventState === 'closed' ? 'this event is' : 'this event has'}
             emphasis={eventState === 'upcoming' ? 'not started yet.' : eventState === 'ended' ? 'ended.' : 'closed.'}
             message=""
@@ -119,7 +139,7 @@ export const ChallengePage = () => {
         )}
 
         {eventState === 'ready' && stage === 'claim' && (
-          <section className="challenge-card" aria-labelledby="challenge-title">
+          <section id="challenge-card" className="challenge-card" aria-labelledby="challenge-title">
             <div className="challenge-card-topline">
               <span>{event?.name}</span>
               <Asterisk />
@@ -148,7 +168,7 @@ export const ChallengePage = () => {
                   required
                 />
               </div>
-              <label className="challenge-label" htmlFor="challenge-email">Email address <span>for the drawing</span></label>
+              <label className="challenge-label" htmlFor="challenge-email">Email address</label>
               <input
                 className="challenge-input challenge-input-plain"
                 id="challenge-email"
@@ -175,11 +195,12 @@ export const ChallengePage = () => {
               </button>
               {error && <p className="challenge-form-error" role="alert">{error}</p>}
             </form>
+            <EventEndNote endTime={event?.end_time} />
           </section>
         )}
 
         {eventState === 'ready' && stage === 'challenge' && (
-          <section className="challenge-card challenge-card-assignment" aria-labelledby="assignment-title">
+          <section id="challenge-card" className="challenge-card challenge-card-assignment" aria-labelledby="assignment-title">
             <div className="challenge-card-topline">
               <span>{event?.name}</span>
             </div>
@@ -199,11 +220,12 @@ export const ChallengePage = () => {
               </button>
               {error && <p className="challenge-form-error" role="alert">{error}</p>}
             </div>
+            <EventEndNote endTime={event?.end_time} />
           </section>
         )}
 
         {stage === 'complete' && (
-          <section className="challenge-card challenge-card-complete" aria-labelledby="complete-title">
+          <section id="challenge-card" className="challenge-card challenge-card-complete" aria-labelledby="complete-title">
             <div className="challenge-card-topline">
               <span>{event?.name}</span>
               <Asterisk />
@@ -212,13 +234,14 @@ export const ChallengePage = () => {
               <div className="complete-mark"><Checkmark /></div>
               <p className="challenge-kicker">you're in.</p>
               <h1 id="complete-title">look at us <em>making friends.</em></h1>
-              <p className="challenge-copy">Thanks for playing along! We hope you made a new connection tonight!</p>
+              <p className="challenge-copy">Thanks for playing along! We hope you made a new friend tonight!</p>
               <div className="complete-reminder">
                 <Instagram />
                 <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for the winner announcement.</p>
               </div>
               <Link className="challenge-secondary-link" to="/">learn more about pasture <span>↗</span></Link>
             </div>
+            <EventEndNote endTime={event?.end_time} />
           </section>
         )}
       </div>
