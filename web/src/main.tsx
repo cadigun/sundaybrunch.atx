@@ -2,9 +2,9 @@ import { lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { initializeAnalytics } from './components/metrics/analytics'
-import './challenge.css'
-import './styles.css'
-import './legal.css'
+import './styles/challenge.css'
+import './styles/styles.css'
+import './styles/legal.css'
 
 const LandingPage = lazy(() => import('./pages/LandingPage').then(({ LandingPage }) => ({ default: LandingPage })))
 const PrivacyPage = lazy(() => import('./pages/LegalPage').then(({ PrivacyPage }) => ({ default: PrivacyPage })))
