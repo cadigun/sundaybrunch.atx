@@ -1,10 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { claimChallenge, completeChallenge, getChallenge, type ChallengeEvent } from '../api/challenges'
+import { ChallengeStatusCard } from '../components/ChallengeStatusCard'
 import { Asterisk, Checkmark, Instagram } from '../components/icons'
 
 type ChallengeStage = 'claim' | 'challenge' | 'complete'
-type EventState = 'loading' | 'ready' | 'closed' | 'error'
+type EventState = 'loading' | 'ready' | 'upcoming' | 'ended' | 'closed' | 'error'
 
 type ChallengeForm = {
   instagram: string
@@ -36,7 +37,7 @@ export const ChallengePage = () => {
       .then(({ event: challengeEvent }) => {
         if (cancelled) return
         setEvent(challengeEvent)
-        setEventState(challengeEvent.open ? 'ready' : 'closed')
+        setEventState(challengeEvent.open ? 'ready' : challengeEvent.status === 'open' ? 'ready' : challengeEvent.status)
       })
       .catch((requestError: Error) => {
         if (cancelled) return
@@ -96,27 +97,25 @@ export const ChallengePage = () => {
 
       <div className="challenge-content">
         {eventState === 'loading' && (
-          <section className="challenge-card challenge-status-card" aria-live="polite">
-            <p className="challenge-kicker">one moment.</p>
-            <h1>finding the <em>table.</em></h1>
-            <p className="challenge-copy">Checking this challenge is ready for you.</p>
-          </section>
+          <ChallengeStatusCard title="finding the" emphasis="table." message="Checking whether this event is ready for you." />
         )}
 
         {eventState === 'error' && (
-          <section className="challenge-card challenge-status-card" aria-live="assertive">
-            <p className="challenge-kicker">we hit a bump.</p>
-            <h1>this invite is <em>not ready.</em></h1>
-            <p className="challenge-copy">{error}</p>
-          </section>
+          <ChallengeStatusCard
+            title={error.toLowerCase().includes('not found') ? 'we couldn’t find' : 'this invite is'}
+            emphasis={error.toLowerCase().includes('not found') ? 'this event.' : 'not ready.'}
+            message={error.toLowerCase().includes('not found') ? 'Check the link and try again.' : error}
+            live="assertive"
+          />
         )}
 
-        {eventState === 'closed' && (
-          <section className="challenge-card challenge-status-card" aria-live="polite">
-            <p className="challenge-kicker">come back soon.</p>
-            <h1>this challenge is <em>closed.</em></h1>
-            <p className="challenge-copy">This Pasture event is not accepting new participants right now.</p>
-          </section>
+        {(eventState === 'upcoming' || eventState === 'ended' || eventState === 'closed') && (
+          <ChallengeStatusCard
+            eventName={event?.name}
+            title={eventState === 'closed' ? 'this event is' : 'this event has'}
+            emphasis={eventState === 'upcoming' ? 'not started yet.' : eventState === 'ended' ? 'ended.' : 'closed.'}
+            message=""
+          />
         )}
 
         {eventState === 'ready' && stage === 'claim' && (
@@ -216,7 +215,7 @@ export const ChallengePage = () => {
               <p className="challenge-copy">Thanks for playing along! We hope you made a new connection tonight!</p>
               <div className="complete-reminder">
                 <Instagram />
-                <p>Follow <strong>@pasture.place</strong> for the winner announcement.</p>
+                <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for the winner announcement.</p>
               </div>
               <Link className="challenge-secondary-link" to="/">learn more about pasture <span>↗</span></Link>
             </div>

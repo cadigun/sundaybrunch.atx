@@ -65,6 +65,19 @@ function isOpen(event: ChallengeEvent) {
   return true
 }
 
+function eventStatus(event: ChallengeEvent): 'upcoming' | 'open' | 'ended' | 'closed' {
+  if (event.active === true) return 'open'
+  if (event.active === false) return 'closed'
+
+  const now = Date.now()
+  const startTime = event.startTime ? Date.parse(event.startTime) : null
+  const endTime = event.endTime ? Date.parse(event.endTime) : null
+
+  if (startTime !== null && !Number.isNaN(startTime) && now < startTime) return 'upcoming'
+  if (endTime !== null && !Number.isNaN(endTime) && now >= endTime) return 'ended'
+  return 'open'
+}
+
 async function identityHash(instagram: string) {
   const bytes = new TextEncoder().encode(instagram)
   const digest = await crypto.subtle.digest('SHA-256', bytes)
@@ -96,6 +109,7 @@ export async function GetChallenge(c: Context<AppEnv>) {
       id: eventId,
       name: event.name ?? 'Pasture challenge',
       open: isOpen(event),
+      status: eventStatus(event),
       start_time: event.startTime ?? null,
       end_time: event.endTime ?? null,
     },

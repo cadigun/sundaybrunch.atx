@@ -23,8 +23,10 @@
 .challenge-event { color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .challenge-content { width: min(100%, 560px); flex: 1; display: grid; align-items: center; margin-inline: auto; padding: 38px 0 70px; }
 .challenge-card { overflow: hidden; padding: 24px; background: #ffe9df; border-radius: 3px; box-shadow: 0 22px 55px rgba(33, 26, 47, .18); }
-.challenge-status-card { padding: 55px 24px; }
-.challenge-status-card h1 { margin-bottom: 20px; }
+.challenge-status-card { padding: 24px; }
+.challenge-status-card .challenge-intro { padding: 42px 0 30px; }
+.challenge-status-card h1 { margin-bottom: 22px; }
+.challenge-status-follow { margin-top: 0; }
 .challenge-card-topline, .challenge-form-heading { display: flex; align-items: center; justify-content: space-between; color: rgba(40, 27, 55, .58); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
 .challenge-card-topline { padding-bottom: 17px; border-bottom: 1px solid rgba(40, 27, 55, .18); }
 .challenge-card-topline svg { width: 18px; height: 18px; color: var(--peach); }
@@ -71,7 +73,7 @@
 .complete-content h1 { margin-bottom: 23px; }
 .complete-reminder { display: flex; align-items: flex-start; gap: 10px; margin-top: 34px; padding-top: 19px; border-top: 1px solid rgba(40, 27, 55, .2); }
 .complete-reminder svg { width: 17px; height: 17px; flex: 0 0 auto; margin-top: 1px; }
-.complete-reminder p { max-width: 300px; margin: 0; color: rgba(40, 27, 55, .7); font-size: 11px; line-height: 1.5; }
+.complete-reminder p { margin: 0; color: rgba(40, 27, 55, .7); font-size: 11px; line-height: 1.5; }
 .challenge-secondary-link { display: inline-flex; gap: 8px; margin-top: 30px; color: var(--deep-ink); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .challenge-secondary-link:hover { text-decoration: underline; }
 .challenge-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 22px 0 27px; }
