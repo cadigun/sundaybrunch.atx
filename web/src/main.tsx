@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { initializeAnalytics } from './components/metrics/analytics'
 import './styles.css'
 import './legal.css'
 
@@ -23,6 +24,8 @@ const App = () => (
     </Routes>
   </Suspense>
 )
+
+initializeAnalytics()
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
