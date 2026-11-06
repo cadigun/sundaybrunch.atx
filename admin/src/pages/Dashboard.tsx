@@ -17,6 +17,30 @@ export const Dashboard = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [reload, setReload] = useState(0)
+  const [deletingEventId, setDeletingEventId] = useState<string | null>(null)
+
+  const deleteEvent = async (eventId: string, eventName: string, submissionCount: number) => {
+    const confirmed = window.confirm(
+      `Delete "${eventName}" and its ${submissionCount} submissions? The event and its submissions cannot be restored.`,
+    )
+    if (!confirmed) return
+
+    setDeletingEventId(eventId)
+    try {
+      const response = await fetch(`/admin/api/events/${encodeURIComponent(eventId)}?store=${store}`, {
+        method: 'DELETE',
+      })
+      const body = await response.json()
+      if (!response.ok) throw new Error(body.error ?? 'Could not delete event.')
+      setEvents((current) => current.filter((event) => event.id !== eventId))
+      setSelectedEventId((current) => current === eventId ? null : current)
+      setError('')
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : 'Could not delete event.')
+    } finally {
+      setDeletingEventId(null)
+    }
+  }
 
   useEffect(() => {
     setSelectedEventId(null)
@@ -62,7 +86,7 @@ export const Dashboard = () => {
           <EventForm store={store} onSaved={() => setReload((value) => value + 1)} />
           {loading ? <p className="empty">Loading events…</p> : events.length === 0 ? <p className="empty">No events yet.</p> : (
             <>
-              <EventTable events={events} selectedId={selectedEventId} store={store} onSelect={setSelectedEventId} />
+              <EventTable events={events} selectedId={selectedEventId} store={store} deletingId={deletingEventId} onSelect={setSelectedEventId} onDelete={deleteEvent} />
               {selectedEventId ? <EventCard event={events.find((event) => event.id === selectedEventId)!} /> : <p className="empty event-selection-hint">Select an event to see its details.</p>}
             </>
           )}

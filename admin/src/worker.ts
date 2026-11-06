@@ -35,6 +35,19 @@ async function listValues<T>(namespace: KVNamespace, prefix: string): Promise<T[
   return values
 }
 
+async function listKeys(namespace: KVNamespace, prefix: string) {
+  const keys: string[] = []
+  let cursor: string | undefined
+
+  do {
+    const page = await namespace.list({ prefix, cursor })
+    keys.push(...page.keys.map(({ name }) => name))
+    cursor = page.list_complete ? undefined : page.cursor
+  } while (cursor)
+
+  return keys
+}
+
 async function getEvents(namespace: KVNamespace) {
   const eventKeys: string[] = []
   let cursor: string | undefined
@@ -85,6 +98,29 @@ export default {
       }
 
       return new Response('Method not allowed', { status: 405 })
+    }
+
+    const deleteEventMatch = url.pathname.match(/^\/api\/events\/([^/]+)$/)
+    if (deleteEventMatch && request.method === 'DELETE') {
+      let eventId: string
+      try {
+        eventId = decodeURIComponent(deleteEventMatch[1])
+      } catch {
+        return Response.json({ error: 'Invalid event ID.' }, { status: 400, headers })
+      }
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(eventId)) {
+        return Response.json({ error: 'Invalid event ID.' }, { status: 400, headers })
+      }
+
+      const namespace = selectStore(env, url.searchParams.get('store'), 'challenge')
+      const eventKey = `event:${eventId}`
+      if (await namespace.get(eventKey) === null) {
+        return Response.json({ error: 'Event not found.' }, { status: 404, headers })
+      }
+
+      const keys = await listKeys(namespace, `event:${eventId}:`)
+      await Promise.all([...keys, eventKey].map((key) => namespace.delete(key)))
+      return Response.json({ ok: true, id: eventId }, { headers })
     }
 
     if (url.pathname === '/api/waitlist') {

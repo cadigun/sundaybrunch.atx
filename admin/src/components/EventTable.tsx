@@ -6,10 +6,12 @@ type Props = {
   events: EventData[]
   selectedId: string | null
   store: 'local' | 'production'
+  deletingId: string | null
   onSelect: (id: string) => void
+  onDelete: (id: string, name: string, submissionCount: number) => void
 }
 
-export const EventTable = ({ events, selectedId, store, onSelect }: Props) => {
+export const EventTable = ({ events, selectedId, store, deletingId, onSelect, onDelete }: Props) => {
   const [copied, setCopied] = useState('')
 
   const copy = async (eventId: string, kind: 'id' | 'url') => {
@@ -32,7 +34,7 @@ export const EventTable = ({ events, selectedId, store, onSelect }: Props) => {
   return (
     <div className="table-wrap event-table-wrap">
       <table className="event-table">
-        <thead><tr><th>Event</th><th>Status</th><th>Starts</th><th>Ends</th><th>Submissions</th><th>Copy</th></tr></thead>
+        <thead><tr><th>Event</th><th>Status</th><th>Starts</th><th>Ends</th><th>Submissions</th><th>Actions</th></tr></thead>
         <tbody>
           {events.map((event) => {
             const status = event.config.active === null || event.config.active === undefined
@@ -72,6 +74,17 @@ export const EventTable = ({ events, selectedId, store, onSelect }: Props) => {
                       {copied === `${event.id}:url` ? <CheckIcon /> : <CopyIcon />}
                     </button>
                     {copied === `${event.id}:error` && <small role="status">Copy failed</small>}
+                    <button
+                      className="event-delete-button"
+                      type="button"
+                      aria-label={`Delete ${event.config.name ?? event.id}`}
+                      title="Delete event and submissions"
+                      disabled={deletingId === event.id}
+                      onClick={() => onDelete(event.id, event.config.name ?? event.id, event.claims.length)}
+                    >
+                      <TrashIcon />
+                      <span>{deletingId === event.id ? 'Deleting' : 'Delete'}</span>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -96,6 +109,14 @@ function CheckIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 16 16">
       <path d="m3 8.25 3.25 3.25L13 4.75" />
+    </svg>
+  )
+}
+
+function TrashIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 16 16">
+      <path d="M2.75 4.25h10.5M6 4.25V2.75h4v1.5m2.25 0-.6 8.5H4.35l-.6-8.5m3.5 2.25v4m3.5-4v4" />
     </svg>
   )
 }

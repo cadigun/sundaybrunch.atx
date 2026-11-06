@@ -109,6 +109,11 @@ footer { border-top: 1px solid #d8cfe4; margin-top: 22px; }
 .event-copy-button:focus-visible { outline: 2px solid #806b98; outline-offset: 2px; }
 .event-copy-button.copied { border-color: #b8d8c7; color: #176a57; background: #eaf5ee; }
 .event-copy-button svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+.event-delete-button { display: inline-flex; align-items: center; gap: 5px; padding: 6px 9px; border: 1px solid #e5c8c8; border-radius: 999px; color: #9b3f49; background: #fff8f6; font: 9px 'DM Mono', monospace; cursor: pointer; }
+.event-delete-button:hover:not(:disabled) { border-color: #c88288; background: #fff0ed; }
+.event-delete-button:focus-visible { outline: 2px solid #b35a64; outline-offset: 2px; }
+.event-delete-button:disabled { cursor: wait; opacity: .6; }
+.event-delete-button svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
 
 .event-selection-hint { padding: 14px 18px; }
 .event-id-field { display: flex; align-items: center; gap: 10px; }
