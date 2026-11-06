@@ -62,7 +62,7 @@ export const Dashboard = () => {
           <EventForm store={store} onSaved={() => setReload((value) => value + 1)} />
           {loading ? <p className="empty">Loading events…</p> : events.length === 0 ? <p className="empty">No events yet.</p> : (
             <>
-              <EventTable events={events} selectedId={selectedEventId} onSelect={setSelectedEventId} />
+              <EventTable events={events} selectedId={selectedEventId} store={store} onSelect={setSelectedEventId} />
               {selectedEventId ? <EventCard event={events.find((event) => event.id === selectedEventId)!} /> : <p className="empty event-selection-hint">Select an event to see its details.</p>}
             </>
           )}
