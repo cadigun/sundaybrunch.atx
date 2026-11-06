@@ -1,5 +1,6 @@
 import type { Context } from 'hono'
 import { getChallenges } from '../data/getChallenges'
+import { getSignups } from '../data/getSignups'
 import type { AppEnv } from '../types'
 
 type ChallengeEvent = {
@@ -7,7 +8,12 @@ type ChallengeEvent = {
   active?: boolean | null
   startTime?: string | null
   endTime?: string | null
-  prompts?: string[]
+  prompts?: ChallengePrompt[]
+}
+
+type ChallengePrompt = string | {
+  template: string
+  options: Record<string, string[]>
 }
 
 type ChallengeClaim = {
@@ -31,6 +37,14 @@ type ClaimRequest = {
 
 type CompleteRequest = {
   claim_id: string
+}
+
+type WaitlistSignup = {
+  email: string
+  city?: string
+  submitted_at: string
+  instagram?: string
+  source?: string
 }
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -92,6 +106,30 @@ function claimResponse(claim: ChallengeClaim) {
   }
 }
 
+function resolvePrompt(prompt: ChallengePrompt) {
+  if (typeof prompt === 'string') return prompt
+
+  return prompt.template.replace(/\{([a-zA-Z0-9_]+)\}/g, (placeholder, optionName: string) => {
+    const choices = prompt.options?.[optionName]
+    if (!choices?.length) return placeholder
+    return choices[Math.floor(Math.random() * choices.length)]
+  })
+}
+
+async function addToWaitlist(c: Context<AppEnv>, email: string, instagram: string, submittedAt: string) {
+  const waitlist = getSignups(c)
+  const key = `signup:${encodeURIComponent(email)}`
+  const existing = await waitlist.get<WaitlistSignup>(key, 'json')
+
+  await waitlist.put(key, JSON.stringify({
+    ...existing,
+    email,
+    submitted_at: existing?.submitted_at ?? submittedAt,
+    instagram,
+    source: existing?.source ?? 'challenge',
+  }))
+}
+
 async function getEvent(c: Context<AppEnv>, eventId: string) {
   const event = await getChallenges(c).get<ChallengeEvent>(eventKey(eventId), 'json')
   return event
@@ -142,7 +180,10 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
 
   if (existingClaimId) {
     const existingClaim = await kv.get<ChallengeClaim>(claimKey(eventId, existingClaimId), 'json')
-    if (existingClaim) return c.json({ ok: true, existing: true, claim: claimResponse(existingClaim) })
+    if (existingClaim) {
+      if (body.interest_opt_in !== false) await addToWaitlist(c, email, instagram, existingClaim.claimed_at)
+      return c.json({ ok: true, existing: true, claim: claimResponse(existingClaim) })
+    }
   }
 
   const claimId = crypto.randomUUID()
@@ -155,7 +196,7 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
     email,
     interest_opt_in: body.interest_opt_in !== false,
     prompt_id: promptId,
-    prompt: prompts[Number(promptId) - 1],
+    prompt: resolvePrompt(prompts[Number(promptId) - 1]),
     status: 'claimed',
     claimed_at: now,
     completed_at: null,
@@ -163,6 +204,7 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
 
   await kv.put(claimKey(eventId, claimId), JSON.stringify(claim))
   await kv.put(participantKey(eventId, identity), claimId)
+  if (claim.interest_opt_in) await addToWaitlist(c, email, instagram, now)
 
   return c.json({ ok: true, existing: false, claim: claimResponse(claim) }, 201)
 }

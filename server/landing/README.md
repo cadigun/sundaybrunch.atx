@@ -42,12 +42,23 @@ Store each event under `event:{eventId}` in `PASTURE_LANDING_CHALLENGE`:
   "endTime": null,
   "prompts": [
     "Take a picture with someone wearing blue.",
-    "Find someone who has visited another country and take a picture together."
+    {
+      "template": "Take a picture with someone wearing {color}.",
+      "options": {
+        "color": ["red", "yellow", "white", "blue"]
+      }
+    },
+    {
+      "template": "Find someone who has visited {continent} and take a picture together.",
+      "options": {
+        "continent": ["Europe", "Asia", "Africa", "North America", "South America", "Oceania"]
+      }
+    }
   ]
 }
 ```
 
-`active: true` forces an event open, `active: false` forces it closed, and `active: null` uses `startTime` and `endTime` as the schedule. The frontend only receives the public event status; prompts are returned after a successful claim.
+`active: true` forces an event open, `active: false` forces it closed, and `active: null` uses `startTime` and `endTime` as the schedule. Prompts can be plain strings or templates with option lists. When a participant claims a challenge, the Worker chooses an option for each placeholder and saves the resolved prompt in their claim, so it remains unchanged if they return later. The frontend only receives the public event status; prompts are returned after a successful claim.
 
 For local preview data, add a value to the local challenge namespace:
 
