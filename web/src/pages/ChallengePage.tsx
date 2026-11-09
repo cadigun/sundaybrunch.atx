@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { claimChallenge, completeChallenge, getChallenge, type ChallengeEvent } from '../api/challenges'
 import { ChallengeStatusCard } from '../components/ChallengeStatusCard'
 import { Asterisk, Checkmark, Instagram } from '../components/icons'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 type ChallengeStage = 'claim' | 'challenge' | 'complete'
 type EventState = 'loading' | 'ready' | 'upcoming' | 'ended' | 'closed' | 'error'
@@ -45,6 +46,8 @@ export const ChallengePage = () => {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [form, setForm] = useState<ChallengeForm>(defaultFormValue);
+
+  usePageTitle(`${event?.name || 'Challenge'} | Pasture`)
 
   useEffect(() => {
     let cancelled = false

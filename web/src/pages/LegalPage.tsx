@@ -1,24 +1,29 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { usePageTitle } from '../hooks/usePageTitle'
 
-const LegalLayout = ({ title, children }: { title: string; children: ReactNode }) => (
-  <div className="legal-page">
-    <div className="legal-shell">
-      <header className="legal-header">
-        <Link className="legal-brand" to="/">pasture</Link>
-        <Link className="back-link" to="/">back home ↗</Link>
-      </header>
-      <h1>{title}</h1>
-      <p className="legal-date">Effective date: November 4, 2026</p>
-      <div className="legal-content">{children}</div>
-      <footer className="legal-footer">
-        <Link to="/privacy">privacy</Link>
-        <Link to="/terms">terms</Link>
-        <Link to="/">pasture</Link>
-      </footer>
+const LegalLayout = ({ title, children }: { title: string; children: ReactNode }) => {
+  usePageTitle(`${title} | Pasture`)
+
+  return (
+    <div className="legal-page">
+      <div className="legal-shell">
+        <header className="legal-header">
+          <Link className="legal-brand" to="/">pasture</Link>
+          <Link className="back-link" to="/">back home ↗</Link>
+        </header>
+        <h1>{title}</h1>
+        <p className="legal-date">Effective date: November 4, 2026</p>
+        <div className="legal-content">{children}</div>
+        <footer className="legal-footer">
+          <Link to="/privacy">privacy</Link>
+          <Link to="/terms">terms</Link>
+          <Link to="/">pasture</Link>
+        </footer>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export const PrivacyPage = () => (
   <LegalLayout title="Privacy policy">

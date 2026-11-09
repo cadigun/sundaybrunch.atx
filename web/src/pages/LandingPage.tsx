@@ -6,8 +6,11 @@ import placesImage from '../assets/places.webp'
 import { MediaSlot } from '../components/MediaSlot'
 import { Asterisk, ArrowUpRight, Compass, Instagram } from '../components/icons'
 import { SignupCard } from '../components/SignupForm'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 export const LandingPage = () => {
+  usePageTitle('Pasture — Come solo. Leave with new friends.')
+
   useEffect(() => {
     const scrollToSignup = () => {
       if (window.location.hash !== '#signup') return
