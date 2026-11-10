@@ -42,6 +42,7 @@ export const ChallengePage = () => {
   const [event, setEvent] = useState<ChallengeEvent | null>(null)
   const [stage, setStage] = useState<ChallengeStage>('claim')
   const [assignedPrompt, setAssignedPrompt] = useState('')
+  const [funFact, setFunFact] = useState('')
   const [claimId, setClaimId] = useState('')
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -97,12 +98,13 @@ export const ChallengePage = () => {
     }
   }
 
-  const handleComplete = async () => {
+  const handleComplete = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     setError('')
     setIsSubmitting(true)
 
     try {
-      await completeChallenge(eventId, claimId)
+      await completeChallenge(eventId, claimId, funFact)
       setStage('complete')
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Something went wrong')
@@ -149,14 +151,16 @@ export const ChallengePage = () => {
             </div>
             <div className="challenge-intro">
               <h1 id="challenge-title">make a new <em>connection.</em></h1>
-              <p className="challenge-copy">Take on a quick challenge, capture the moment and share it on Instagram. Tag <strong>@pasture.place</strong> for your chance to win a $100 gift card!</p>
+              <p className="challenge-copy">
+                Meet someone new and share a fun fact you learned for a chance to win a $100 gift card.
+              </p>
             </div>
 
             <form className="challenge-form" onSubmit={handleClaim}>
               <div className="challenge-form-heading">
-                <span>tell us where to find you.</span>
+                 <span>tell us where to find you.</span>
               </div>
-              <label className="challenge-label" htmlFor="challenge-instagram">Instagram username <span>required</span></label>
+              <label className="challenge-label" htmlFor="challenge-instagram">Instagram username</label>
               <div className="challenge-input-wrap">
                 <Instagram />
                 <input
@@ -168,10 +172,9 @@ export const ChallengePage = () => {
                   autoComplete="username"
                   value={form.instagram}
                   onChange={(event) => updateForm('instagram', event.target.value)}
-                  required
                 />
               </div>
-              <label className="challenge-label" htmlFor="challenge-email">Email address</label>
+              <label className="challenge-label" htmlFor="challenge-email">Email address <span>required</span></label>
               <input
                 className="challenge-input challenge-input-plain"
                 id="challenge-email"
@@ -190,9 +193,9 @@ export const ChallengePage = () => {
                   onChange={(event) => updateForm('joinInterestList', event.target.checked)}
                 />
                 <span className="challenge-checkmark"><Checkmark /></span>
-                <span>I'm interested in future events.</span>
+                <span>I'm interested in future events</span>
               </label>
-              <button className="challenge-button" type="submit" disabled={isSubmitting}>
+              <button className="challenge-button" type="submit" disabled={isSubmitting || !form.email.trim()}>
                 {isSubmitting ? 'Saving your spot…' : 'Take the challenge'}
                 <span>→</span>
               </button>
@@ -208,20 +211,37 @@ export const ChallengePage = () => {
               <span>{event?.name}</span>
             </div>
             <div className="assignment-content">
-              <h1 id="assignment-title">find your <em>person.</em></h1>
+              <h1 id="assignment-title">break the <em>ice.</em></h1>
               <div className="prompt-card">
                 <p>{assignedPrompt}</p>
               </div>
-              <ol className="challenge-steps">
-                <li><span>1</span><p>Find your person and take a picture together.</p></li>
-                <li><span>2</span><p>Share it on Instagram and tag <strong>@pasture.place</strong>.</p></li>
-                <li><span>3</span><p>Come back here and let us know you did it.</p></li>
-              </ol>
-              <button className="challenge-button" type="button" onClick={handleComplete} disabled={isSubmitting}>
-                {isSubmitting ? 'Saving your entry…' : 'I completed it'}
-                {' '}<Checkmark />
-              </button>
-              {error && <p className="challenge-form-error" role="alert">{error}</p>}
+              <form className="challenge-form assignment-form" onSubmit={handleComplete}>
+                <label className="challenge-label" htmlFor="challenge-fun-fact">What fun fact did you learn about them?</label>
+                <textarea
+                  className="challenge-input challenge-fun-fact"
+                  id="challenge-fun-fact"
+                  name="fun_fact"
+                  placeholder="Share something fun you learned…"
+                  value={funFact}
+                  onChange={(event) => setFunFact(event.target.value)}
+                  maxLength={500}
+                  required
+                />
+                <p className="challenge-character-count" aria-live="polite">
+                  50 characters minimum · {funFact.trim().length}/50
+                </p>
+                <p className="challenge-optional-note">
+                  <span className="challenge-winner-note">
+                    <Instagram />
+                    <p>We’ll announce the winners on Instagram. Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> so you don’t miss it.</p>
+                  </span>
+                </p>
+                <button className="challenge-button" type="submit" disabled={isSubmitting || funFact.trim().length < 50}>
+                  {isSubmitting ? 'Saving your entry…' : 'Submit my fun fact'}
+                  {' '}<Checkmark />
+                </button>
+                {error && <p className="challenge-form-error" role="alert">{error}</p>}
+              </form>
             </div>
             <EventEndNote endTime={event?.end_time} />
           </section>
@@ -236,11 +256,11 @@ export const ChallengePage = () => {
             <div className="complete-content">
               <div className="complete-mark"><Checkmark /></div>
               <p className="challenge-kicker">you're in.</p>
-              <h1 id="complete-title">look at us <em>making friends.</em></h1>
-              <p className="challenge-copy">Thanks for playing along! We hope you made a new friend tonight!</p>
+              <h1 id="complete-title">look at you <em>making friends.</em></h1>
+              <p className="challenge-copy">Thanks for sharing a fun fact and making a new connection!</p>
               <div className="complete-reminder">
                 <Instagram />
-                <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for the winner announcement.</p>
+                <p>We’ll announce the winners on Instagram. Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> so you don’t miss it.</p>
               </div>
               <Link className="challenge-secondary-link" to="/">learn more about pasture <span>↗</span></Link>
             </div>

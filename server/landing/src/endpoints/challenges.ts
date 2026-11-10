@@ -27,16 +27,18 @@ type ChallengeClaim = {
   status: 'claimed' | 'completed'
   claimed_at: string
   completed_at: string | null
+  fun_fact?: string
 }
 
 type ClaimRequest = {
-  instagram: string
-  email: string
+  instagram?: string
+  email?: string
   interest_opt_in?: boolean
 }
 
 type CompleteRequest = {
   claim_id: string
+  fun_fact: string
 }
 
 type WaitlistSignup = {
@@ -180,22 +182,21 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
   const instagram = normalizeInstagram(body.instagram ?? '')
   const email = body.email?.trim().toLowerCase() ?? ''
 
-  if (!instagram) return c.json({ ok: false, error: 'instagram is required' }, 400)
-  if (!instagramPattern.test(instagram)) return c.json({ ok: false, error: 'instagram is invalid' }, 400)
   if (!email) return c.json({ ok: false, error: 'email is required' }, 400)
-  if (!emailPattern.test(email)) return c.json({ ok: false, error: 'email is invalid' }, 400)
+  if (instagram && !instagramPattern.test(instagram)) return c.json({ ok: false, error: 'instagram is invalid' }, 400)
+  if (email && !emailPattern.test(email)) return c.json({ ok: false, error: 'email is invalid' }, 400)
 
   const prompts = event.prompts ?? []
   if (!prompts.length) return c.json({ ok: false, error: 'This challenge has no prompts configured' }, 500)
 
   const kv = getChallenges(c)
-  const identity = await identityHash(instagram)
+  const identity = await identityHash(instagram || `email:${email}`)
   const existingClaimId = await kv.get(participantKey(eventId, identity))
 
   if (existingClaimId) {
     const existingClaim = await kv.get<ChallengeClaim>(claimKey(eventId, existingClaimId), 'json')
     if (existingClaim) {
-      if (body.interest_opt_in !== false) await addToWaitlist(c, email, instagram, existingClaim.claimed_at)
+      if (body.interest_opt_in !== false && email) await addToWaitlist(c, email, instagram, existingClaim.claimed_at)
       return c.json({ ok: true, existing: true, claim: claimResponse(existingClaim) })
     }
   }
@@ -208,7 +209,7 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
     event_id: eventId,
     instagram,
     email,
-    interest_opt_in: body.interest_opt_in !== false,
+    interest_opt_in: body.interest_opt_in !== false && Boolean(email),
     prompt_id: promptId,
     prompt: resolvePrompt(prompts[Number(promptId) - 1]),
     status: 'claimed',
@@ -218,7 +219,7 @@ export async function ClaimChallenge(c: Context<AppEnv>) {
 
   await kv.put(claimKey(eventId, claimId), JSON.stringify(claim))
   await kv.put(participantKey(eventId, identity), claimId)
-  if (claim.interest_opt_in) await addToWaitlist(c, email, instagram, now)
+  if (claim.interest_opt_in && email) await addToWaitlist(c, email, instagram, now)
 
   return c.json({ ok: true, existing: false, claim: claimResponse(claim) }, 201)
 }
@@ -230,6 +231,9 @@ export async function CompleteChallenge(c: Context<AppEnv>) {
   const body = (await c.req.json().catch(() => null)) as CompleteRequest | null
 
   if (!body?.claim_id) return c.json({ ok: false, error: 'claim_id is required' }, 400)
+  const funFact = typeof body.fun_fact === 'string' ? body.fun_fact.trim() : ''
+  if (!funFact) return c.json({ ok: false, error: 'fun_fact is required' }, 400)
+  if (funFact.length > 500) return c.json({ ok: false, error: 'fun_fact must be 500 characters or fewer' }, 400)
 
   const kv = getChallenges(c)
   const claim = await kv.get<ChallengeClaim>(claimKey(eventId, body.claim_id), 'json')
@@ -244,6 +248,7 @@ export async function CompleteChallenge(c: Context<AppEnv>) {
     ...claim,
     status: 'completed',
     completed_at: completedAt,
+    fun_fact: funFact,
   }
 
   await kv.put(claimKey(eventId, body.claim_id), JSON.stringify(completedClaim))

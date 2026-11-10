@@ -16,6 +16,7 @@ export type Submission = {
   instagram: string
   email: string
   prompt: string
+  fun_fact?: string
   status: 'claimed' | 'completed'
   interest_opt_in: boolean
   claimed_at: string

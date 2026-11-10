@@ -49,12 +49,12 @@ export const Dashboard = () => {
       ? fetch(`/admin/api/events?store=${store}`).then(async (response) => {
         const body = await response.json()
         if (!response.ok) throw new Error(body.error ?? 'Could not load events.')
-        setEvents(body.events)
+        setEvents(Array.isArray(body.events) ? body.events : [])
       })
       : fetch(`/admin/api/waitlist?store=${store}`).then(async (response) => {
         const body = await response.json()
         if (!response.ok) throw new Error(body.error ?? 'Could not load waitlist.')
-        setSignups(body.signups)
+        setSignups(Array.isArray(body.signups) ? body.signups : [])
       })
 
     request
@@ -62,6 +62,8 @@ export const Dashboard = () => {
       .catch((loadError: Error) => setError(loadError.message))
       .finally(() => setLoading(false))
   }, [tab, store, reload])
+
+  const selectedEvent = events.find((event) => event.id === selectedEventId)
 
   return (
     <main className="shell">
@@ -87,7 +89,7 @@ export const Dashboard = () => {
           {loading ? <p className="empty">Loading events…</p> : events.length === 0 ? <p className="empty">No events yet.</p> : (
             <>
               <EventTable events={events} selectedId={selectedEventId} store={store} deletingId={deletingEventId} onSelect={setSelectedEventId} onDelete={deleteEvent} />
-              {selectedEventId ? <EventCard event={events.find((event) => event.id === selectedEventId)!} /> : <p className="empty event-selection-hint">Select an event to see its details.</p>}
+              {selectedEvent ? <EventCard event={selectedEvent} /> : <p className="empty event-selection-hint">Select an event to see its details.</p>}
             </>
           )}
         </section>

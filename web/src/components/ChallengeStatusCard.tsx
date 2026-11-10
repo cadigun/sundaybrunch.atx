@@ -34,7 +34,7 @@ export const ChallengeStatusCard = ({
     </div>
     <div className="complete-reminder challenge-status-follow">
       <Instagram />
-      <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for future events and annoucements.</p>
+      <p>Follow <a href="https://instagram.com/pasture.place" target="_blank" rel="noreferrer"><strong>@pasture.place</strong></a> for event updates and winner announcements.</p>
     </div>
     {endTime && formatEventEndTime(endTime) && (
       <p className="challenge-event-end">Challenge ends {formatEventEndTime(endTime)}</p>

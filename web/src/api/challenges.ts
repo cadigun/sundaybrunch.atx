@@ -39,8 +39,8 @@ export const claimChallenge = (eventId: string, input: { instagram: string; emai
     body: JSON.stringify(input),
   })
 
-export const completeChallenge = (eventId: string, claimId: string) =>
+export const completeChallenge = (eventId: string, claimId: string, funFact: string) =>
   request<{ ok: true; status: 'completed'; completed_at: string }>(`/challenges/${encodeURIComponent(eventId)}/complete`, {
     method: 'POST',
-    body: JSON.stringify({ claim_id: claimId }),
+    body: JSON.stringify({ claim_id: claimId, fun_fact: funFact }),
   })

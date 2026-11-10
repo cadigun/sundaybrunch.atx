@@ -57,13 +57,16 @@ async function getEvents(namespace: KVNamespace) {
     cursor = page.list_complete ? undefined : page.cursor
   } while (cursor)
 
-  return Promise.all(eventKeys.map(async (key) => {
+  const events = await Promise.all(eventKeys.map(async (key) => {
     const id = key.slice('event:'.length)
-    const config = await namespace.get(key, 'json')
+    const config = await namespace.get<EventConfig>(key, 'json')
+    if (!config || typeof config !== 'object' || Array.isArray(config)) return null
     const claims = await listValues<Record<string, any>>(namespace, `event:${id}:claim:`)
     claims.sort((a, b) => (b.claimed_at ?? '').localeCompare(a.claimed_at ?? ''))
     return { id, config, claims }
   }))
+
+  return events.filter((event): event is NonNullable<typeof event> => event !== null)
 }
 
 export default {
