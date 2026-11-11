@@ -216,7 +216,7 @@ export const ChallengePage = () => {
                 <p>{assignedPrompt}</p>
               </div>
               <form className="challenge-form assignment-form" onSubmit={handleComplete}>
-                <label className="challenge-label" htmlFor="challenge-fun-fact">What fun fact did you learn about them?</label>
+                <label className="challenge-label" htmlFor="challenge-fun-fact">What fun fact did you learn from your conversation?</label>
                 <textarea
                   className="challenge-input challenge-fun-fact"
                   id="challenge-fun-fact"

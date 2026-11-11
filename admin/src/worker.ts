@@ -111,7 +111,7 @@ export default {
       } catch {
         return Response.json({ error: 'Invalid event ID.' }, { status: 400, headers })
       }
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(eventId)) {
+      if (!eventId || eventId.includes(':') || eventId.includes('/') || eventId.includes('\\') || /[\u0000-\u001f\u007f]/.test(eventId)) {
         return Response.json({ error: 'Invalid event ID.' }, { status: 400, headers })
       }
 
